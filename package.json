@@ -1,0 +1,19 @@
+{
+  "name": "hola_express",
+  "version": "0.0.1",
+  "description": "Hola mundo con Express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./src/js/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dragonbolt124/HM-Express.git"
+  },
+  "author": "Gustavo SZ",
+  "license": "ISC",
+  "homepage": "https://github.com/Dragonbolt124/HM-Express#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
