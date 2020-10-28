@@ -4,7 +4,8 @@
   "description": "Hola mundo con Express",
   "main": "app.js",
   "scripts": {
-    "start": "node ./src/js/app.js"
+    "start": "node ./src/js/app.js",
+    "stop": "pkill --signal SIGINT myservidor"
   },
   "repository": {
     "type": "git",
@@ -14,6 +15,7 @@
   "license": "ISC",
   "homepage": "https://github.com/Dragonbolt124/HM-Express#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pug": "^3.0.0"
   }
 }
