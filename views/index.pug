@@ -6,3 +6,11 @@ html(lang="en")
         title Hola Mundo Express
     body
         h1 Bienvenido #{nombre}
+        -var arr = [1,2,3,4,5,6]
+        each i in arr
+            if i%2 == 0
+                p numero: #{i} es par
+            else
+                p numero: #{i} es impar
+        p.
+            numeros: #[b #{arr}]
