@@ -1,25 +1,42 @@
 
 var express = require("express");
 var bodyParser = require("body-parser");
+var session = require("express-session");
+var session_val = require("./session");
+var router_app = require("./routes_app");
 var User = require("./models/user").User;
+
+/* 
+    / rutas publicas 
+    /app rutas de sesion 
+*/ 
 
 var app = express();
 app.use(express.static("src"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": true}));
+app.use(session({
+    secret: "clave",
+    resave: false,
+    saveUninitialized: false
+}));
+app.use("/app",session_val);
+app.use("/app",router_app);
 
 app.set("view engine", "pug");
 app.set("views","./views");
 
 app.get("/",function (req,res) {
+    console.log("session id: "+req.session.user_id)
     res.render("index",{nombre: "Gustavo"});
 });
 
+app.get("/registro",function (req,res) {
+    res.render("registro");
+});
+
 app.get("/login",function (req,res) {
-    User.find(function (err,doc) {
-        console.log(doc);
-        res.render("form1");
-    });
+    res.render("login");
 })
 
 app.post("/users",function (req,res) {
@@ -42,6 +59,16 @@ app.post("/users",function (req,res) {
             console.log(String(err));
             res.send("Error: "+String(err));
         }
+    });
+});
+
+app.post("/sesion",function (req,res) {
+    User.findOne({
+        email: req.body.email,
+        password: req.body.pass
+    },function (err,user) {
+        req.session.user_id = user._id;
+        res.send("Hola mundo");
     });
 });
 
