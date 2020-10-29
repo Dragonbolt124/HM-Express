@@ -1,16 +1,7 @@
 
 var express = require("express");
 var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-
-mongoose.connect("mongodb://localhost/primera_db");
-var userSchemaJSON = {
-    email: String,
-    password: String
-};
-var Schema = mongoose.Schema;
-var user_schema = new Schema(userSchemaJSON);
-var User = mongoose.model("User",user_schema);
+var User = require("./models/user").User;
 
 var app = express();
 app.use(express.static("src"));
@@ -32,11 +23,26 @@ app.get("/login",function (req,res) {
 })
 
 app.post("/users",function (req,res) {
-    var user = new User({email: req.body.email, password: req.body.pass});
+    let data_email = req.body.email;
+    let data_pass = req.body.pass;
+    let data_conf = req.body.password_confirmation;
 
-    user.save(function () {
+    var user = new User({
+        email: data_email, 
+        password: data_pass,
+        password_confirmation: data_conf
+    });
+
+    user.save().then((us) =>{
         res.send("Tus datos han sido guardados");
-    })
+    },
+    (err) =>{
+        if(err)
+        {
+            console.log(String(err));
+            res.send("Error: "+String(err));
+        }
+    });
 });
 
 app.listen(8080);
