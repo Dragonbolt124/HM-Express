@@ -12,32 +12,56 @@ router.get("/imagenes/new", function (req,res) {
 });
 
 router.get("/imagenes/:id/edit", function (req,res) {
-
+    Imagen.findById(req.params.id,function (err, img) {
+        if(err){
+            console.log(err);
+            res.redirect("/app/imagenes/new");
+        }else
+            res.render("app/edit_img",{imagen: img});
+    })
 });
 
 // REST
 
 router.route("/imagenes/:id")
     .get(function (req,res) {
-        console.log("id: "+req.params.id);
         Imagen.findById(req.params.id,function (err, img) {
             if(err){
                 console.log(err);
-                res.require("/app/imagenes/new");
+                res.redirect("/app/imagenes/new");
             }else
                 res.render("app/show_img",{imagen: img});
         })
     })
     .put(function (req,res) { 
-
+        Imagen.findById(req.params.id,function (err, img) {
+            img.titulo = req.body.title;
+            img.save().then(function (img) {
+                console.log("imagen editada: "+img);
+                res.redirect("/app/imagenes/");
+            },
+            function (err) { 
+                console.log(String(err));
+                res.render("app/edit_img",{imagen: img});
+            })
+        })
     })
     .delete(function (req,res) { 
-
+        Imagen.findByIdAndRemove(req.params.id,function (err) {
+            if(err)
+                console.log(err);
+            res.redirect("/app/imagenes/");
+        })
     });
 
 router.route("/imagenes")
     .get(function (req,res) {
-        
+        Imagen.find({},function (err,imagenes) { 
+            if(err){
+                res.redirect("/app");
+            }else
+                res.render("app/images",{imagenes: imagenes});
+        });
     })
     .post(function (req,res) { 
         var data = {
