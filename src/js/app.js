@@ -10,9 +10,7 @@ var User = require("./models/user").User;
 var app = express();
 
 app.use(express.static("src"));
-app.use("/app/imagenes",express.static("src"));
-app.use("/app/imagenes/:id",express.static("src"));
-
+app.use("/:id*/css",express.static("src/css"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": true}));
 app.use(methodOverride("_method"));
