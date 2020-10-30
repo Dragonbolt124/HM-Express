@@ -7,7 +7,10 @@ var router_app = require("./routes_app");
 var User = require("./models/user").User;
 
 var app = express();
+
 app.use(express.static("src"));
+app.use("/app/imagenes",express.static("src"));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": true}));
 app.use(session({
@@ -16,9 +19,6 @@ app.use(session({
     saveUninitialized: false
 }));
 
-//app.locals.n = "12";
-//console.log("app locals n: "+app.locals.n);
-
 app.use("/app",session_val);
 app.use("/app",router_app);
 
@@ -26,7 +26,6 @@ app.set("view engine", "pug");
 app.set("views","./views");
 
 app.get("/",function (req,res) {
-    //console.log("session id: "+req.session.user_id)
     res.render("index",{nombre: "Gustavo"});
 });
 
