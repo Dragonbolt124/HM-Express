@@ -6,6 +6,10 @@ var img_schema = new Schema({
     titulo: {
         type: String, 
         required: "Necesita un titulo"
+    },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
     }
 });
 

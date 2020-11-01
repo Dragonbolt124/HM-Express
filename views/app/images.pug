@@ -7,7 +7,8 @@ block contenido
             .myborder.p-3.tr
                 .row
                     .col-md-10
-                        h3= imagen.titulo
+                        a(href="/app/imagenes/"+imagen._id+"", 
+                            class="h3 text-dark text-decoration-none") #{imagen.titulo}
                     .col-md-2
                         a(href="/app/imagenes/"+imagen._id+"/edit", class="right-space") Editar
                         form(action="/app/imagenes/"+imagen._id+"?_method=DELETE", method="post"
