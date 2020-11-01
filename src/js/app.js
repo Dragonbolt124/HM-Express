@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var cookieSession = require("cookie-session");
 var methodOverride = require("method-override");
+var formidable = require("express-formidable");
 var session_val = require("./session");
 var router_app = require("./routes_app");
 var User = require("./models/user").User;
@@ -11,9 +12,14 @@ var app = express();
 
 app.use(express.static("src"));
 app.use("/:id*/css",express.static("src/css"));
+app.use("/:id*/images",express.static("src/images"));
+//app.use("/:b*/:f",express.static("src"));
+app.use(methodOverride("_method"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({"extended": true}));
-app.use(methodOverride("_method"));
+app.use(formidable({
+    keepExtensions: true
+}))
 app.use(cookieSession({
     name: "session",
     keys: ["llave1", "llave2"]

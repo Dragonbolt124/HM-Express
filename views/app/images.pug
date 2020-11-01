@@ -12,5 +12,5 @@ block contenido
                     .col-md-2
                         a(href="/app/imagenes/"+imagen._id+"/edit", class="right-space") Editar
                         form(action="/app/imagenes/"+imagen._id+"?_method=DELETE", method="post"
-                            class="link")
+                            enctype="multipart/form-data" class="link")
                             input(type="submit", value="Eliminar", class="border-0 bg-transparent text-danger")

@@ -1,5 +1,9 @@
 extends ../layout.pug
 
 block contenido
-    h1= imagen.titulo
-    p Por #{imagen.creator.email}
+    div(class="container")
+        div(class="card")
+            img(class="card-img-top" src="../../src/images/"+imagen._id+"."+imagen.ext alt=""+imagen.titulo)
+            div(class="card-body")
+                h4(class="card-title") #{imagen.titulo}
+                p(Class="card-text") Creador: #{imagen.creator.email}

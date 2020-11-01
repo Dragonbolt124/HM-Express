@@ -10,6 +10,10 @@ var img_schema = new Schema({
     creator: {
         type: Schema.Types.ObjectId,
         ref: "User"
+    },
+    ext: {
+        type: String,
+        required: true
     }
 });
 

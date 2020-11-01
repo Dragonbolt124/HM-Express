@@ -1,5 +1,6 @@
 
 var express = require("express");
+var fs = require("fs");
 var img_finder = require("./find_img")
 var Imagen = require("./models/imagenes").Imagen;
 var router = express.Router();
@@ -7,7 +8,13 @@ var router = express.Router();
 // Paginas
 
 router.get("/",function (req,res) {
-    res.render("app/home");
+    Imagen.find().populate("creator").exec(function (err, imagenes) { 
+        if(err)
+            console.log(err)
+        else{
+            res.render("app/home",{imagenes: imagenes});
+        }
+    })
 });
 
 router.get("/imagenes/new", function (req,res) {
@@ -37,7 +44,7 @@ router.route("/imagenes/:id")
             res.render("app/edit_img");
         })
     })
-    .delete(function (req,res) { 
+    .delete(function (req,res) {
         Imagen.findByIdAndRemove(req.params.id,function (err) {
             if(err)
                 console.log(err);
@@ -54,16 +61,23 @@ router.route("/imagenes")
                 res.render("app/images",{imagenes: imagenes});
         });
     })
-    .post(function (req,res) { 
+    .post(function (req,res) {
+        var ext = req.files.img.name.split(".").pop();
         var data = {
-            titulo: req.body.title,
-            creator: res.locals.user._id
+            titulo: req.fields.title,
+            creator: res.locals.user._id,
+            ext: ext
         }
 
         var imagen = new Imagen(data);
 
         imagen.save().then(function (img) {
-            console.log("imagen guardada: "+img);
+            fs.rename(req.files.img.path,"./src/images/"+imagen._id+"."+ext,function (err) { 
+                if(err){
+                    console.log(err);
+                    res.redirect("/app/imagenes/");
+                }
+            });
             res.redirect("/app/imagenes/"+img._id);
         },
         function (err) { 

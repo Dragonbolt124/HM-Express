@@ -1,4 +1,11 @@
 extends ../layout.pug
 
 block contenido
-    h1 Sesion Iniciada!! Bienvenido #{user.email}
+    div(class="container")
+        .row
+            each imagen, i in imagenes
+                .col-md-3
+                    .card
+                        img(src="../../src/images/"+imagen._id+"."+imagen.ext alt=""+imagen.titulo, 
+                            class="card-img-top img-thumbnail align-middle")
+                        p(class="card-text h4 text-center") #{imagen.titulo}

@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 mongoose.connect("mongodb://localhost/primera_db");
+mongoose.useFindAndModify = false;
 
 var email_exp = [ /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/ , 
     "Tu correo electronico no es valido"];
